@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System.Reflection;
 
-namespace NTP_Complot_Rest.Common.Mapping
+namespace TP_Complot_Rest.Common.Mapping
 {
     public class MappingProfile : Profile
     {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace NTP_Complot_Rest.Common.Mapping
+namespace TP_Complot_Rest.Common.Mapping
 {
     public interface IMapFrom<T>
     {

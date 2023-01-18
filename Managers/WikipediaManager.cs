@@ -39,6 +39,7 @@ namespace TP_Complot_Rest.Managers
 
         public async Task<Result<List<string>>> Search(string search, int limit = 20)
         {
+            List<string> list = new List<string>();
             if (search == null || search == string.Empty)
                 return Result.Failure<List<string>>("Search format is invalid");
             string query = $"?action=query&origin=*&format=json&generator=search&gsrnamespace=0&gsrlimit={limit}&gsrsearch={search}";
@@ -47,8 +48,10 @@ namespace TP_Complot_Rest.Managers
                 return Result.Failure<List<string>>($"Error while calling Wikipedia with given message : {res.RequestMessage}");
             string readble = await res.Content.ReadAsStringAsync();
             WikipediaResult mapped = JsonConvert.DeserializeObject<WikipediaResult>(readble);
-
-            return Result.Success(mapped.Query.Pages.Values.Select(v => v.Title).ToList());
+            bool isNullOrEmpty = mapped == null || mapped.Query == null || mapped.Query.Pages == null || mapped.Query.Pages.Count == 0 || mapped.Query.Pages.Values.Count == 0 || mapped.Query.Pages.Values == null;
+            if (!isNullOrEmpty)
+                list = mapped.Query.Pages.Values.Select(v => v.Title).ToList();
+            return Result.Success(list);
         }
 
         public class WikipediaResult

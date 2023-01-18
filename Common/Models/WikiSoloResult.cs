@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
-using NTP_Complot_Rest.Common.Mapping;
+using TP_Complot_Rest.Common.Mapping;
 
 namespace TP_Complot_Rest.Common.Models
 {
