@@ -65,5 +65,15 @@ namespace TP_Complot_Rest.Controllers
                 return BadRequest(res.Error);
             return Ok(res.Value);
         }
+
+        [Authorize]
+        [HttpGet("genres")]
+        public async Task<IActionResult> getAllGenres()
+        {
+            Result<List<GenreDto>> res = await _persistenceManager.GetGenres();
+            if (res.IsFailure)
+                return BadRequest(res.Error);
+            return Ok(res.Value);
+        }
     }
 }

@@ -33,15 +33,22 @@ namespace TP_Complot_Rest.Managers
         public async Task<Result<List<ComplotResponseDto>>> FindAll()
         {
             List<Complot> c = await _context.Complots.ToListAsync();
-            var res = new List<ComplotResponseDto>();
-            //res.Add(new ComplotResponseDto() { Name = "nantre", Description = " nantes nord", Lattitude = 47.30, Longitude = -1.59, Public = true });
-            //res.Add(new ComplotResponseDto() { Name = "nantre", Description = " nantes nord est qzdqçiazrdqzd847q9z648fdqz896 q4zd86 4q qz4dq6z 46q4z q48zd6qz4d6qz84 46qz48dqz", Lattitude = 47.34, Longitude = -1.42, Public = false, Genres = new List<GenreDto>() { new GenreDto() { Name = "Alien" } } });
-            return Result.Success(res);
+            List<ComplotResponseDto> dto = _mapper.Map<List<ComplotResponseDto>>(c);
+            return Result.Success(dto);
+        }
+
+        public async Task<Result<List<GenreDto>>> GetGenres()
+        {
+            List<Genre> entitites = await _context.Genres.ToListAsync();
+            List<GenreDto> dtos = _mapper.Map<List<GenreDto>>(entitites);
+            return Result.Success(dtos);
         }
 
         public Task<Result> Udpate(ComplotDto toUpdate)
         {
             throw new NotImplementedException();
         }
+
+       
     }
 }
