@@ -6,10 +6,10 @@ namespace TP_Complot_Rest.Managers.Interfaces
 {
     public interface IPersistenceManager
     {
-        public Task<Result> Create(ComplotDto toCreate);
+        public Task<Result> Create(ComplotDto toCreate, int UserId);
 
         public Task<Result> Udpate(ComplotDto toUpdate);
 
-        public Task<Result<List<ComplotDto>>> FindAll();
+        public Task<Result<List<ComplotResponseDto>>> FindAll();
     }
 }

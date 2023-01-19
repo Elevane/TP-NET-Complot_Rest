@@ -112,7 +112,7 @@ public class UserService
         if (token == null)
             return Result.Failure<AuthenticateResponse>("Could not generate User token");
         toCreate.Token = token;
-        _repo.Create(toCreate);
+        await _repo.Create(toCreate);
         AuthenticateResponse response = _mapper.Map<AuthenticateResponse>(toCreate);
         if (response == null)
             return Result.Failure<AuthenticateResponse>("Could not map user into Authenticate response");

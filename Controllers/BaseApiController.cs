@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TP_Complot_Rest.Controllers
 {
@@ -12,6 +13,11 @@ namespace TP_Complot_Rest.Controllers
         protected ActionResult Ok<T>(T result)
         {
             return base.Ok(Envelope.Ok(result));
+        }
+
+        protected ActionResult Ok<T>()
+        {
+            return base.Ok(Envelope.Ok<T>());
         }
 
         protected IActionResult Error(string errorMessage)

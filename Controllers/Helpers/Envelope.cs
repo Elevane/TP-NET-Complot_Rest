@@ -61,4 +61,9 @@ public class Envelope : Envelope<string>
     {
         return new Envelope<T>(result);
     }
+
+    public static Envelope<T> Ok<T>()
+    {
+        return new Envelope<T>();
+    }
 }

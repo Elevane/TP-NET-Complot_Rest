@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using System.Text;
 using TP_Complot_Rest.Common;
 using TP_Complot_Rest.Common.Helpers;
 using TP_Complot_Rest.Managers;
@@ -39,12 +41,24 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.Configure<SourceSettings>(builder.Configuration.GetSection("SourceSettings"));
-builder.Services.Configure<SoapSettings>(builder.Configuration.GetSection("SoapSettings"));
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IComplotManager, WikipediaManager>();
-builder.Services.AddScoped<IPersistenceManager, SoapApiManager>();
+builder.Services.AddScoped<IPersistenceManager, SqlManager>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<UserRepository>();
 var app = builder.Build();
+
+//Logger
+app.Use(async (context, next) =>
+{
+    var method = context.Request.Method;
+    var route = context.Request.Path;
+    var time = DateTime.Now;
+    Console.WriteLine("                                                   ");
+    Console.WriteLine($"---- Request == > [{method.ToUpper()}] '{route}'  at  {time}");
+    Console.WriteLine("                                                   ");
+    await next();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
