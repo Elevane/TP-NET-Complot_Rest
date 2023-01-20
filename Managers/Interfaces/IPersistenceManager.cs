@@ -10,8 +10,8 @@ namespace TP_Complot_Rest.Managers.Interfaces
 
         public Task<Result> Udpate(ComplotDto toUpdate);
 
-        public Task<Result<List<ComplotResponseDto>>> FindAll();
-
+        public Task<Result<List<ComplotResponseDto>>> FindAll(int userId);
+        public Task<Result<List<ComplotResponseDto>>> FindAllComplot(int userId);
         public Task<Result<List<GenreDto>>> GetGenres();
     }
 }

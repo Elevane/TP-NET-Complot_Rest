@@ -21,18 +21,33 @@ namespace TP_Complot_Rest.Managers
             _mapper = mapper;
         }
 
-        public async Task<Result> Create(ComplotDto toCreate, int UserId)
+        public async Task<Result> Create(ComplotDto toCreate, int userId)
         {
-            toCreate.UserId = UserId;
+            int JOUR = 24;
+            var last3days = DateTime.Now.AddHours(-(24 * 7));
+            List<Complot> last = await _context.Complots.Where(c => c.created > last3days && c.Public && c.UserId == userId).ToListAsync();
+            if (last.Count >= 3 && toCreate.Public) return Result.Failure("Max public complor created since 3 days");
+            toCreate.UserId = userId;
+            
             Complot exist = _mapper.Map<Complot>(toCreate);
+            exist.created= DateTime.Now;
             await _context.AddAsync(exist);
             await _context.SaveChangesAsync();
             return Result.Success();
         }
 
-        public async Task<Result<List<ComplotResponseDto>>> FindAll()
+        public async Task<Result<List<ComplotResponseDto>>> FindAllComplot(int userId)
         {
-            List<Complot> c = await _context.Complots.ToListAsync();
+            List<Complot> mines = await _context.Complots.Where(c => c.UserId == userId && !c.Public).Include(c => c.Genres).ThenInclude(cg => cg.Genre).ToListAsync();
+            List<Complot> c = await _context.Complots.Where(c => c.Public).Include(c => c.Genres).ThenInclude(cg => cg.Genre).ToListAsync();
+            List<Complot> merge = mines.Concat(c).ToList();
+            List<ComplotResponseDto> dto = _mapper.Map<List<ComplotResponseDto>>(merge);
+            return Result.Success(dto);
+        }
+
+        public async Task<Result<List<ComplotResponseDto>>> FindAll(int userId)
+        {
+            List<Complot> c = await _context.Complots.Where(c => c.UserId == userId).Include(c => c.Genres).ThenInclude(cg => cg.Genre).ToListAsync();
             List<ComplotResponseDto> dto = _mapper.Map<List<ComplotResponseDto>>(c);
             return Result.Success(dto);
         }
@@ -48,7 +63,5 @@ namespace TP_Complot_Rest.Managers
         {
             throw new NotImplementedException();
         }
-
-       
     }
 }

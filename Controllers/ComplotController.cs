@@ -53,14 +53,24 @@ namespace TP_Complot_Rest.Controllers
             Result res = await _persistenceManager.Create(dto, _currentUser);
             if (res.IsFailure)
                 return BadRequest(res.Error);
-            return Ok();
+            return Ok(dto);
         }
 
         [Authorize]
         [HttpGet]
+        public async Task<IActionResult> FindAllComplot(int userId)
+        {
+            Result<List<ComplotResponseDto>> res = await _persistenceManager.FindAllComplot(_currentUser);
+            if (res.IsFailure)
+                return BadRequest(res.Error);
+            return Ok(res.Value);
+        }
+
+        [Authorize]
+        [HttpGet("mines")]
         public async Task<IActionResult> getAll()
         {
-            Result<List<ComplotResponseDto>> res = await _persistenceManager.FindAll();
+            Result<List<ComplotResponseDto>> res = await _persistenceManager.FindAll(_currentUser);
             if (res.IsFailure)
                 return BadRequest(res.Error);
             return Ok(res.Value);
