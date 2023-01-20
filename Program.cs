@@ -19,7 +19,7 @@ builder.Services.AddControllers();
 const string appCorsPolicy = "_myAllowSpecificOrigins";
 builder.Services.AddDbContext<UserContext>(options =>
 {
-    string connectionString = builder.Configuration["defaultConnection"];
+    string connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
     options.UseMySql(
         connectionString,
         ServerVersion.AutoDetect(connectionString),
