@@ -56,7 +56,6 @@ namespace TP_Complot_Rest.Controllers
             return Ok(dto);
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> FindAllComplot(int userId)
         {

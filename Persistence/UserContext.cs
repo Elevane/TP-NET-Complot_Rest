@@ -28,23 +28,16 @@ namespace TP_Complot_Rest.Persistence
                 complot.ToTable("complot");
                 complot.HasIndex(complot => complot.Id);
                 complot.HasOne<User>(c => c.User).WithMany(u => u.Complots).HasForeignKey(c => c.UserId);
-                complot.HasMany<ComplotGenre>(c => c.Genres).WithOne(g => g.Complot);
+                complot.HasMany<Genre>(c => c.Genres).WithMany(g => g.Complots);
             });
 
             builder.Entity<Genre>(genre =>
             {
                 genre.ToTable("genre");
                 genre.HasIndex(g => g.Id);
-                genre.HasMany<ComplotGenre>(g => g.Complots).WithOne(g => g.Genre);
+                genre.HasMany<Complot>(g => g.Complots).WithMany(g => g.Genres);
             });
 
-            builder.Entity<ComplotGenre>(cgenre =>
-            {
-                cgenre.ToTable("complotgenre");
-                cgenre.HasIndex(g => g.Id);
-                cgenre.HasOne<Genre>(g => g.Genre).WithMany(g => g.Complots);
-                cgenre.HasOne<Complot>(g => g.Complot).WithMany(g => g.Genres);
-            });
             base.OnModelCreating(builder);
         }
     }

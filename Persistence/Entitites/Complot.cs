@@ -9,7 +9,7 @@ namespace TP_Complot_Rest.Persistence.Entitites
         public string Name { get; set; }
 
         public DateTime created { get; set; }
-        public List<ComplotGenre>? Genres { get; set; }
+        public List<Genre>? Genres { get; set; }
 
         public User User { get; set; }
 

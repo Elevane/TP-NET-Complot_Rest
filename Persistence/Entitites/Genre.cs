@@ -6,6 +6,6 @@ namespace TP_Complot_Rest.Persistence.Entitites
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<ComplotGenre> Complots { get; set; }
+        public List<Complot> Complots { get; set; }
     }
 }
